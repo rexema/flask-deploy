@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "gb-project"
+version = "0.1.0"
+description = ""
+authors = ["rexema <anast82@mail.ru>"]
+readme = "README.md"
+packages = [{include = "gb_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+flask = "^2.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
