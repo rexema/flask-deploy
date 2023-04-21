@@ -1,0 +1,20 @@
+{% extends 'users/base.html' %}
+{% block title %}
+   Список статей
+{% endblock  %}
+{% block body %}
+<div class="vstack gap-2">
+    <h5>Статьи</h5>
+    {% for a in articles  %}
+    <div class="p-2">
+       
+         <ul>
+            <li><a href="{{url_for('article_app.get_article', pk=a)}}">{{articles[a]['title']}}</li>
+        </ul>
+    </div>
+    {% endfor %}
+  
+</div>
+
+{% endblock body %}
+
