@@ -1,23 +1,24 @@
 from werkzeug.exceptions import NotFound
 from flask import Blueprint, redirect, render_template
+from sqlalchemy.orm import load_only
+
 
 article_app = Blueprint('article_app', __name__, url_prefix='/articles', static_folder='../static')
-
-ARTICLES = {
-    1:{'title': 'Картина в картине и еще раз в картине — художественная рекурсия!', 'content': 'Кто из нас не стоял между двумя зеркалами, вглядываясь в бесконечно повторяющееся изображение самого себя, вглядывающегося в в бесконечно повторяющееся изображение самого себя?.. По-научному это явление называется рекурсией, и оно нашло отражение во многих областях, начиная от физики и программирования, заканчивая искусством. Говоря о последней области, для творческих людей было бы слишком банально экспериментировать с двумя зеркалами или даже сделать рекурсию при помощи фотографий. Поэтому группа энтузиастов, познакомившаяся на просторах интернета, решила воплотить это явление в жизнь при помощи картин.'},
-    2 : {'title': 'Отпечатки ладоней возрастом 13 000 лет', 'content':'Можно ли прикоснуться к древности? Не к произведениям античных скульпторов и строителей, а к эпохам, оставшимся давно в прошлом? Живя в современном мире, мы редко задумываемся, насколько давно населяет Землю человек. Все началось еще миллионы лет назад, когда первые гоминиды встали на задние конечности и научились создавать примитивные орудия труда. Современная эпоха с письменностью, городами и государствами — всего лишь миг по сравнению с теми временами, когда по континентам мигрировали немногочисленные племена наших предков.'
- }
-}
+TITLES = []
 
 @article_app.route('/')
-def article_list():
-    return render_template('articles/list.html', articles=ARTICLES)
 
+def article_list():
+   
+    from blog.models import Article
+    articles = Article.query.all()
+    
+    return render_template('articles/list.html', articles=articles)
 
 @article_app.route('/<int:pk>')
 def get_article(pk:int):
-    try:
-       article = ARTICLES[pk]
-    except KeyError:
-        return redirect('/articles')
-    return render_template('articles/detail.html', article=article)
+    from blog.models import Article
+    article = Article.query.filter_by(id=pk).one_or_none() 
+    title=article.title.decode('UTF-8')   
+    text=article.text.decode('UTF-8')
+    return render_template('articles/detail.html', title=title, text=text)
