@@ -5,11 +5,11 @@
 {% block body %}
 <div class="vstack gap-2">
     <h5>Пользователи</h5>
-    {% for u in users  %}
+    {% for user in users  %}
     <div class="p-2">
       
          <ul>
-            <li><a href="{{url_for('user_app.get_user', pk=u)}}">{{users[u]['name']}}</li>
+            <li><a href="{{url_for('user_app.get_user', pk=user.id)}}">{{user.email}}</li>
         </ul>
     </div>
     {% endfor %}

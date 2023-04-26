@@ -5,15 +5,15 @@
 {% block body %}
 <div class="vstack gap-2">
     <h5>Статьи</h5>
-    {% for a in articles  %}
-    <div class="p-2">
+    {% for article in articles  %}
+        <div class="p-2">
        
          <ul>
-            <li><a href="{{url_for('article_app.get_article', pk=a)}}">{{articles[a]['title']}}</li>
+            <li><a href="{{url_for('article_app.get_article', pk=article.id)}}">{{article.title.decode("UTF-8")}}</li>
         </ul>
     </div>
     {% endfor %}
-  
+    
 </div>
 
 {% endblock body %}
