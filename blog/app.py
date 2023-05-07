@@ -5,7 +5,14 @@ from blog.user.views import user_app
 from blog.articles.views import article_app
 from blog.auth.views import auth
 from flask import redirect, url_for
+import os
+from flask_migrate import Migrate
 
+
+
+
+
+migrate = Migrate()
 db = SQLAlchemy()
 login_manager = LoginManager()
 
@@ -14,12 +21,13 @@ def create_app():
     app.config['SECRET_KEY'] = 'e+%_r$h4aui+vw_jn^!3)&pk6v=i-3!&dcy07i6x@97gf#-osc'
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-       
+           
     register_extensions(app)
     register_blueprints(app)
     return app
 def register_extensions(app):
-    db.init_app(app)
+    db.init_app(app) 
+    migrate.init_app(app, db, compare_type=True)
 
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
