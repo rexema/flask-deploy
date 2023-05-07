@@ -1,4 +1,4 @@
-from blog.app import create_app, db
+from blog.app import create_app, db, migrate
 from werkzeug.security import generate_password_hash
 
 
