@@ -1,19 +1,21 @@
 from flask_login import UserMixin
 from blog.app import db
-
+from flask_admin import Admin
 
 
 class User(db.Model, UserMixin):
-    
-    id = db.Column(db.Integer, primary_key = True)
+
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
-    nick = db.Column(db.String(255), nullable=False, default="", server_default="")
+    nick = db.Column(db.String(255), nullable=False,
+                     default="", server_default="")
     password = db.Column(db.String(255))
     articles = db.relationship('Article', backref='author')
 
+
 class Article(db.Model):
-     
-     id = db.Column(db.Integer, primary_key = True)    
-     title = db.Column(db.String(200))
-     text = db.Column(db.String)
-     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
+    text = db.Column(db.String)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
