@@ -9,7 +9,7 @@
         <div class="p-2">
        
          <ul>
-            <li><a href="{{url_for('article_app.get_article', pk=article.id)}}">{{article.title.decode("UTF-8")}}</li>
+            <li><a href="{{url_for('article_app.get_article', pk=article.id)}}">{{article.title}}</li>
         </ul>
     </div>
     {% endfor %}
