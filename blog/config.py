@@ -4,9 +4,10 @@ import os
 class BaseConfig(object):
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///blog.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = "abcdefg123456"
+    SECRET_KEY = 'e+%_r$h4aui+vw_jn^!3)&pk6v=i-3!&dcy07i6x@97gf#-osc'
+    WTF_CSRF_ENABLED = True
 
 
 class DevConfig(BaseConfig):
