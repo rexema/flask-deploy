@@ -5,3 +5,6 @@ flask_login==0.6.2
 psycopg2== 2.9.6
 Flask-Migrate==4.0.4
 Flask-Admin==1.6.1
+WTForms==3.0.1
+email-validator==2.0.0
+Flask-WTF==1.1.1
