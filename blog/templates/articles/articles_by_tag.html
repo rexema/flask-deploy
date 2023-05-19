@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %} {% block title %} Список статей {% endblock %}
+{% block body %}
+<div class="vstack gap-2">
+  <h5>Статьи</h5>
+  {% for article in articles %}
+  <div class="p-2">
+    <ul>
+      <li>{{article.title}}</li>
+      <li>
+        {{article.author.user.first_name}} {{article.author.user.last_name}}
+      </li>
+    </ul>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock body %}
