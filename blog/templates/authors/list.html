@@ -1,0 +1,18 @@
+{% extends 'users/base.html' %}
+{% block title %}
+    Список авторов
+{% endblock  %}
+{% block body %}
+<div class="vstack gap-2">
+    <h5>Авторы</h5>
+    {% for user in users  %}
+    <div class="p-2">
+      
+         <ul>
+            <li><a href="{{url_for('user_app.get_user', pk=author.user.id)}}">{{author.user.first_name}}{{author.user.last_name}}{{author.id}}</li>
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock body %}
+
