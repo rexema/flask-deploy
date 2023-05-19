@@ -3,12 +3,14 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from blog.user.views import user_app
 from blog.articles.views import article_app
+from blog.authors.views import authors
 from blog.auth.views import auth
 from flask import redirect, url_for
 import os
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+
 
 
 migrate = Migrate()
@@ -26,12 +28,12 @@ def create_app():
     from .models import User, Article
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Article, db.session))
-
+   
     return app
-
 
 def register_extensions(app):
     db.init_app(app)
+    
     migrate.init_app(app, db, compare_type=True)
 
     login_manager.login_view = 'auth.login'
@@ -51,3 +53,9 @@ def register_blueprints(app: Flask):
     app.register_blueprint(user_app)
     app.register_blueprint(article_app)
     app.register_blueprint(auth)
+    app.register_blueprint(authors)
+
+def register_commands(app:Flask):
+    from wsgi import init_db, create_tags
+    app.cli.add_command(init_db)
+    app.cli.add_command(create_tags)
