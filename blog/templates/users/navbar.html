@@ -23,7 +23,17 @@
           >Статьи</a
         >
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('authors.authors_list')}}"
+          >Авторы</a
+        >
+      </li>
       {% if current_user.is_authenticated%}
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('article_app.create_article')}}"
+          >Создать статью</a
+        >
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{{url_for('auth.logout')}}">Logout</a>
       </li>
