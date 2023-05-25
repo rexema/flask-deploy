@@ -12,7 +12,6 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
 
-
 migrate = Migrate()
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -24,18 +23,15 @@ def create_app():
     app.config.from_object(f'blog.config.{cfg_name}')
     register_extensions(app)
     register_blueprints(app)
-    admin = Admin(app)
-    from .models import User, Article
-    admin.add_view(ModelView(User, db.session))
-    admin.add_view(ModelView(Article, db.session))
-   
+    from blog.admin import admin
+    admin.init_app(app)
+
     return app
+
 
 def register_extensions(app):
     db.init_app(app)
-    
     migrate.init_app(app, db, compare_type=True)
-
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     from blog.models import User
@@ -55,7 +51,8 @@ def register_blueprints(app: Flask):
     app.register_blueprint(auth)
     app.register_blueprint(authors)
 
-def register_commands(app:Flask):
+
+def register_commands(app: Flask):
     from wsgi import init_db, create_tags
     app.cli.add_command(init_db)
     app.cli.add_command(create_tags)
