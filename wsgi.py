@@ -1,4 +1,3 @@
-import click
 from blog.app import create_app
 
 
@@ -38,3 +37,10 @@ def create_tags():
     db.session.commit()
     print("created tags")
 
+@app.cli.command("create-author")
+def create_author():
+    from blog.models import Author
+    from blog.app import db
+    author=Author(user_id='1')
+    db.session.add(author)
+    db.session.commit()
