@@ -1,0 +1,15 @@
+{% extends 'users/base.html' %} {% from "macro/formhelpers.html" import
+render_field %} {% block title %} Создать статью {% endblock %} {% block body %}
+
+<form  method="POST" >
+    {% for field in form %}
+    <div class="form-group">
+      {{field.label()}}
+    {{field(class="form-control")}}
+    </div>
+    {% endfor %}
+    <button class="btn btn-primary">Sibmit</button>
+</form>
+
+
+{% endblock body %}
