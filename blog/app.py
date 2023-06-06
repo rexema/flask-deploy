@@ -12,12 +12,18 @@ from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from combojsonapi.spec import ApiSpecPlugin
+from combojsonapi.event import EventPlugin
 from flask_combo_jsonapi import Api
+from combojsonapi.permission import PermissionPlugin
+
+
 
 migrate = Migrate()
 db = SQLAlchemy()
 login_manager = LoginManager()
 api = Api()
+event_plugin = EventPlugin()
+permission_plugin = PermissionPlugin(strict=False)
 
 
 def create_api_spec_plugin(app):
@@ -33,6 +39,7 @@ def create_api_spec_plugin(app):
 
         }
     )
+   
     return api_spec_plugin
 
 
@@ -83,7 +90,7 @@ def register_api(app: Flask):
     from blog.api.user import UserList, UserDetail
     from blog.api.author import AuthorList, AuthorDetail
     from blog.api.article import ArticleList, ArticleDetail
-    api = Api(app=app, plugins=[create_api_spec_plugin(app),])
+    api = Api(app=app, plugins=[create_api_spec_plugin(app), event_plugin, permission_plugin])
     api.route(TagList, "tag_list", "/api/tags/", tag="Tag")
     api.route(TagDetail, "tag_detail", "/api/tags/<int:id>/", tag="Tag")
     api.route(UserList, "user_list", "/api/users/", tag="User")
