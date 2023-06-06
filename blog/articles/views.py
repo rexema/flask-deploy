@@ -1,10 +1,10 @@
+from http.client import HTTPException
 from flask_login import current_user, login_required
+import requests
 from werkzeug.exceptions import NotFound
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from sqlalchemy.orm import load_only, joinedload
-
 from blog.forms.article import CreateArticleForm
-
 
 article_app = Blueprint('article_app', __name__,
                         url_prefix='/articles', static_folder='../static')
@@ -14,7 +14,7 @@ TITLES = []
 @article_app.route('/')
 def article_list():
     from blog.models import Article
-    articles = Article.query.all()
+    articles = Article.query.all()   
     return render_template('articles/list.html', articles=articles)
 
 
@@ -54,6 +54,7 @@ def create_article():
         return redirect(url_for('article_app.get_article', pk=article.id))
     return render_template('articles/create.html', form=form)
 
+
 @article_app.route('tag/<int:pk>')
 def get_article_by_tag(pk: int):
     from blog.models import article_tag_associations_table, Article, Tag
@@ -62,3 +63,24 @@ def get_article_by_tag(pk: int):
     if query_article is None:
         raise NotFound
     return render_template('articles/articles_by_tag.html',articles=query_article)
+
+
+@article_app.route('/<int:id>/edit',  methods=['GET', 'POST'])
+@login_required
+def update_article(id):
+    from blog.models import Article
+    from blog.app import db    
+    article_to_update = Article.query.filter(Article.id==id).first()
+    form = CreateArticleForm(obj=article_to_update )
+    if request.method =='POST':
+        form = CreateArticleForm(formdata=request.form, obj=article_to_update)
+        form.populate_obj(article_to_update)        
+        db.session.commit()           
+        flash("Успешно изменили статью")
+        return redirect(url_for('article_app.get_article', pk=id))
+       
+           
+    form = CreateArticleForm(obj=article_to_update)
+    return render_template('articles/update.html', form=form,article_to_update=article_to_update)
+   
+ 
