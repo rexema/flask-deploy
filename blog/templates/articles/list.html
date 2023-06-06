@@ -5,12 +5,16 @@
 {% block body %}
 <div class="vstack gap-2">
     <h5>Статьи</h5>
+    {{count_articles}}
     {% for article in articles  %}
         <div class="p-2">
        
          <ul>
             <li><a href="{{url_for('article_app.get_article', pk=article.id)}}">{{article.title}}</li>
         </ul>
+        <div>
+            <a href="{{url_for('article_app.update_article', id=article.id)}}" class="btn btn-outline-secondary">Изменить статью</a>
+            </div>
     </div>
     {% endfor %}
     
